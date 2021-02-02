@@ -9,27 +9,28 @@ namespace CommonStore.Sales.Application.Commands
         {
             RuleFor(c => c.CustomerId)
                 .NotEqual(Guid.Empty)
-                .WithMessage("ID do cliente inválido");
+                .WithMessage("Invalid customer ID");
 
             RuleFor(c => c.ProductId)
                 .NotEqual(Guid.Empty)
-                .WithMessage("ID do produto inválido");
+                .WithMessage("Invalid product ID");
 
             RuleFor(c => c.Name)
                 .NotEmpty()
-                .WithMessage("Nome do produto não foi informado");
+                .WithMessage("Product's name not given");
 
             RuleFor(c => c.Quantity)
                 .GreaterThan(0)
-                .WithMessage("Quantity mínima de um item é 1");
+                .WithMessage("Minimun quantity: 1");
 
+            //quantity limitation
             RuleFor(c => c.Quantity)
-                .LessThan(15)
-                .WithMessage("Quantity máxima de um item é 15");
+                .LessThan(5)
+                .WithMessage("Maximun quantity: 5");
 
             RuleFor(c => c.UnitPrice)
                 .GreaterThan(0)
-                .WithMessage("O valor do item precisa ser maior que 0");
+                .WithMessage("Price must be greater than zero");
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using MediatR;
+using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 
 namespace CommonStore.Catalog.Domain.Events
 {
@@ -17,7 +17,7 @@ namespace CommonStore.Catalog.Domain.Events
         {
             var product = await _productRepository.GetById(message.AggregateId);
 
-            // Enviar um email para aquisicao de mais produtos.
+            // Send an e-mail to the team warning them to buy more products
         }
     }
 }

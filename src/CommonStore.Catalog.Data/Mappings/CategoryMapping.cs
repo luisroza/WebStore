@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonStore.Catalog.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CommonStore.Catalog.Domain;
 
 namespace CommonStore.Catalog.Data.Mappings
 {
@@ -15,7 +15,7 @@ namespace CommonStore.Catalog.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(250)");
 
-            // 1 : N => Categorias : Produtos
+            // 1 : N => Categories : Products
             builder.HasMany(c => c.Products)
                 .WithOne(p => p.Category)
                 .HasForeignKey(p => p.CategoryId);

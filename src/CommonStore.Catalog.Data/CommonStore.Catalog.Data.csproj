@@ -15,8 +15,4 @@
     <ProjectReference Include="..\CommonStore.Core\CommonStore.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

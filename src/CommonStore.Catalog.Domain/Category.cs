@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using CommonStore.Core.DomainObjects;
+﻿using CommonStore.Core.DomainObjects;
+using System.Collections.Generic;
 
 namespace CommonStore.Catalog.Domain
 {
@@ -10,8 +10,8 @@ namespace CommonStore.Catalog.Domain
 
         // EF Relation
         public ICollection<Product> Products { get; set; }
-        
-        // EF issue
+
+        // EF Relation
         protected Category() { }
 
         public Category(string name, int code)
@@ -19,7 +19,7 @@ namespace CommonStore.Catalog.Domain
             Name = name;
             Code = code;
 
-            Validar();
+            Validate();
         }
 
         public override string ToString()
@@ -27,10 +27,10 @@ namespace CommonStore.Catalog.Domain
             return $"{Name} - {Code}";
         }
 
-        public void Validar()
+        public void Validate()
         {
-            Validation.ValidateEmpty(Name, "O campo Nome da categoria não pode estar vazio");
-            Validation.ValidateEqual(Code, 0, "O campo Code não pode ser 0");
+            AssertionConcern.AssertArgumentNotEmpty(Name, "Cagotegory's name cannot be empty");
+            AssertionConcern.AssertArgumentEquals(Code, 0, "Code cannot be empty");
         }
     }
 }

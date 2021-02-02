@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonStore.Catalog.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CommonStore.Catalog.Domain;
 
 namespace CommonStore.Catalog.Data.Mappings
 {
@@ -23,7 +23,7 @@ namespace CommonStore.Catalog.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(250)");
 
-            //Dimensoes properties will be columns on this table
+            //Dimensions properties will be columns on this table
             builder.OwnsOne(c => c.Dimensions, cm =>
             {
                 cm.Property(c => c.Height)

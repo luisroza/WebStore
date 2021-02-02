@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CommonStore.Catalog.Application.ViewModels;
 using CommonStore.Catalog.Domain;
 using CommonStore.Core.DomainObjects;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CommonStore.Catalog.Application.Services
 {

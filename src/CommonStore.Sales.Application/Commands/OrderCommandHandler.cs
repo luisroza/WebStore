@@ -1,8 +1,8 @@
-﻿using MediatR;
-using CommonStore.Core.Communication.Mediator;
+﻿using CommonStore.Core.Communication.Mediator;
 using CommonStore.Core.Messages;
 using CommonStore.Core.Messages.CommonMessages.Notifications;
 using CommonStore.Sales.Domain;
+using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

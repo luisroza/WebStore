@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CommonStore.Catalog.Application.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CommonStore.Catalog.Application.ViewModels;
 
 namespace CommonStore.Catalog.Application.Services
 {

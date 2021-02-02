@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CommonStore.Catalog.Domain;
+using CommonStore.Core.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using CommonStore.Catalog.Domain;
-using CommonStore.Core.Data;
 
 namespace CommonStore.Catalog.Data
 {

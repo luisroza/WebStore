@@ -43,14 +43,14 @@ namespace CommonStore.Catalog.Domain
 
         public void ChangeDescription(string description)
         {
-            Validation.ValidateEmpty(description, "O campo Descricao do produto não pode estar vazio");
+            AssertionConcern.AssertArgumentNotEmpty(description, "Description cannot not be empty");
             Description = description;
         }
 
         public void DecreaseStock(int quantity)
         {
             if (quantity < 0) quantity *= -1;
-            if (!HasStock(quantity)) throw new DomainException("Estoque insuficiente");
+            if (!HasStock(quantity)) throw new DomainException("There are no items enough in stock");
             StockQuantity -= quantity;
         }
 
@@ -66,11 +66,11 @@ namespace CommonStore.Catalog.Domain
 
         public void Validate()
         {
-            Validation.ValidateEmpty(Name, "O campo Nome do produto não pode estar vazio");
-            Validation.ValidateEmpty(Description, "O campo Descricao do produto não pode estar vazio");
-            Validation.ValidateEqual(CategoryId, Guid.Empty, "O campo CategoriaId do produto não pode estar vazio");
-            Validation.ValidateLesserThan(Price, 1, "O campo Valor do produto não pode se menor igual a 0");
-            Validation.ValidateEmpty(Image, "O campo Imagem do produto não pode estar vazio");
+            AssertionConcern.AssertArgumentNotEmpty(Name, "Name cannot be empty");
+            AssertionConcern.AssertArgumentNotEmpty(Description, "Description cannot be empty");
+            AssertionConcern.AssertArgumentEquals(CategoryId, Guid.Empty, "Product's CategoriyId cannot be empty");
+            AssertionConcern.AssertArgumentLesserThan(Price, 1, "Product's price cannot be empty");
+            AssertionConcern.AssertArgumentNotEmpty(Image, "Image cannot be empty");
         }
     }
 }

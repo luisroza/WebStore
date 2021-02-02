@@ -114,7 +114,7 @@ namespace CommonStore.Sales.Domain
             var existentOrderLine = OrderLines.FirstOrDefault(p => p.ProductId == item.ProductId);
 
             if (existentOrderLine == null)
-                throw new DomainException("O item não pertence ao pedido");
+                throw new DomainException("This order line does not belong to the order");
             _orderLines.Remove(existentOrderLine);
 
             CalculateOrderPrice();
@@ -128,7 +128,7 @@ namespace CommonStore.Sales.Domain
             var existentOrderLine = OrderLines.FirstOrDefault(p => p.ProductId == item.ProductId);
 
             if (existentOrderLine == null)
-                throw new DomainException("O item não pertence ao pedido");
+                throw new DomainException("This order line does not belong to the order");
 
             _orderLines.Remove(existentOrderLine);
             _orderLines.Add(item);

@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using CommonStore.Catalog.Domain;
+﻿using CommonStore.Catalog.Domain;
 using CommonStore.Core.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,24 +41,24 @@ namespace CommonStore.Catalog.Data.Repository
             return await _context.Categories.AsNoTracking().ToListAsync();
         }
 
-        public void Add(Product produto)
+        public void Add(Product product)
         {
-            _context.Products.Add(produto);
+            _context.Products.Add(product);
         }
 
-        public void Update(Product produto)
+        public void Update(Product product)
         {
-            _context.Produtos.Update(produto);
+            _context.Products.Update(product);
         }
 
-        public void Add(Category categoria)
+        public void Add(Category category)
         {
-            _context.Categorias.Add(categoria);
+            _context.Categories.Add(category);
         }
 
-        public void Update(Category categoria)
+        public void Update(Category category)
         {
-            _context.Categorias.Update(categoria);
+            _context.Categories.Update(category);
         }
 
         public void Dispose()

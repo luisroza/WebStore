@@ -2,10 +2,10 @@
 
 namespace CommonStore.Core.DomainObjects
 {
-    //AssertConcern
-    public class Validation
+    //AssertionConcern
+    public class AssertionConcern
     {
-        public static void ValidateEqual(object object1, object object2, string message)
+        public static void AssertArgumentEquals(object object1, object object2, string message)
         {
             if (object1.Equals(object2))
             {
@@ -13,7 +13,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateNotEqual(object object1, object object2, string message)
+        public static void AssertArgumentFalse(object object1, object object2, string message)
         {
             if (!object1.Equals(object2))
             {
@@ -21,7 +21,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateDifferent(string pattern, string value, string message)
+        public static void AssertArgumentMatches(string pattern, string value, string message)
         {
             var regex = new Regex(pattern);
 
@@ -31,7 +31,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateSize(string value, int max, string message)
+        public static void AssertArgumentLength(string value, int max, string message)
         {
             var length = value.Trim().Length;
             if (length > max)
@@ -40,7 +40,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateSize(string value, int min, int max, string message)
+        public static void AssertArgumentLength(string value, int min, int max, string message)
         {
             var length = value.Trim().Length;
             if (length < min || length > max)
@@ -49,7 +49,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
         
-        public static void ValidateEmpty(string value, string message)
+        public static void AssertArgumentNotEmpty(string value, string message)
         {
             if (value == null || value.Trim().Length == 0)
             {
@@ -57,7 +57,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateNull(object object1, string message)
+        public static void AssertArgumentNotNull(object object1, string message)
         {
             if (object1 == null)
             {
@@ -65,7 +65,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateMinMax(double value, double min, double max, string message)
+        public static void AssertArgumentRange(double value, double min, double max, string message)
         {
             if (value < min || value > max)
             {
@@ -73,7 +73,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateMinMax(float value, float min, float max, string message)
+        public static void AssertArgumentRange(float value, float min, float max, string message)
         {
             if (value < min || value > max)
             {
@@ -81,7 +81,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateMinMax(int value, int min, int max, string message)
+        public static void AssertArgumentRange(int value, int min, int max, string message)
         {
             if (value < min || value > max)
             {
@@ -89,7 +89,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateMinMax(long value, long min, long max, string message)
+        public static void AssertArgumentRange(long value, long min, long max, string message)
         {
             if (value < min || value > max)
             {
@@ -97,7 +97,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateMinMax(decimal value, decimal min, decimal max, string message)
+        public static void AssertArgumentRange(decimal value, decimal min, decimal max, string message)
         {
             if (value < min || value > max)
             {
@@ -105,7 +105,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateGreaterThan(long value, long min, string message)
+        public static void AssertArgumentGreaterThan(long value, long min, string message)
         {
             if (value < min)
             {
@@ -113,7 +113,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateLesserThan(double value, double min, string message)
+        public static void AssertArgumentLesserThan(double value, double min, string message)
         {
             if (value < min)
             {
@@ -121,7 +121,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateLesserThan(decimal value, decimal min, string message)
+        public static void AssertArgumentLesserThan(decimal value, decimal min, string message)
         {
             if (value < min)
             {
@@ -129,7 +129,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateLesserThan(int value, int min, string message)
+        public static void AssertArgumentLesserThan(int value, int min, string message)
         {
             if (value < min)
             {
@@ -137,7 +137,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateFalse(bool boolvalue, string message)
+        public static void AssertStateTrue(bool boolvalue, string message)
         {
             if (!boolvalue)
             {
@@ -145,7 +145,7 @@ namespace CommonStore.Core.DomainObjects
             }
         }
 
-        public static void ValidateTrue(bool boolvalue, string message)
+        public static void AssertStateFalse(bool boolvalue, string message)
         {
             if (boolvalue)
             {

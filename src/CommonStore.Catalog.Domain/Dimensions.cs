@@ -10,9 +10,9 @@ namespace CommonStore.Catalog.Domain
 
         public Dimensions(decimal height, decimal width, decimal depth)
         {
-            Validation.ValidateLesserThan(height, 1, "O campo Altura não pode ser menor ou igual a 0");
-            Validation.ValidateLesserThan(width, 1, "O campo Largura não pode ser menor ou igual a 0");
-            Validation.ValidateLesserThan(depth, 1, "O campo Profundidade não pode ser menor ou igual a 0");
+            AssertionConcern.AssertArgumentLesserThan(height, 1, "Height must be equal or greater than zero");
+            AssertionConcern.AssertArgumentLesserThan(width, 1, "Width must be equal or greater than zero");
+            AssertionConcern.AssertArgumentLesserThan(depth, 1, "Depth must be equal or greater than zero");
 
             Height = height;
             Width = width;
