@@ -25,14 +25,14 @@ namespace CommonStore.WebApp.MVC.Controllers.Admin
         [Route("new-product")]
         public async Task<IActionResult> NewProduct()
         {
-            return View(await PopularCategorias(new ProductViewModel()));
+            return View(await GetCategories(new ProductViewModel()));
         }
 
         [Route("new-product")]
         [HttpPost]
         public async Task<IActionResult> NewProduct(ProductViewModel productViewModel)
         {
-            if (!ModelState.IsValid) return View(await PopularCategorias(productViewModel));
+            if (!ModelState.IsValid) return View(await GetCategories(productViewModel));
 
             await _productAppService.AddProduct(productViewModel);
 
@@ -43,7 +43,7 @@ namespace CommonStore.WebApp.MVC.Controllers.Admin
         [Route("edit-product")]
         public async Task<IActionResult> UpdateProduct(Guid id)
         {
-            return View(await PopularCategorias(await _productAppService.GetById(id)));
+            return View(await GetCategories(await _productAppService.GetById(id)));
         }
 
         [HttpPost]
@@ -54,7 +54,7 @@ namespace CommonStore.WebApp.MVC.Controllers.Admin
             productViewModel.StockQuantity= product.StockQuantity;
 
             ModelState.Remove("StockQuantity");
-            if (!ModelState.IsValid) return View(await PopularCategorias(productViewModel));
+            if (!ModelState.IsValid) return View(await GetCategories(productViewModel));
 
             await _productAppService.UpdateProduct(productViewModel);
 
@@ -84,7 +84,7 @@ namespace CommonStore.WebApp.MVC.Controllers.Admin
             return View("Index", await _productAppService.GetAll());
         }
 
-        private async Task<ProductViewModel> PopularCategorias(ProductViewModel product)
+        private async Task<ProductViewModel> GetCategories(ProductViewModel product)
         {
             product.Categories = await _productAppService.GetCategories();
             return product;

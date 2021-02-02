@@ -17,7 +17,7 @@ namespace CommonStore.Catalog.Domain.Events
         {
             var product = await _productRepository.GetById(message.AggregateId);
 
-            // Send an e-mail to the team warning them to buy more products
+            // TODO: Send an e-mail to the team warning them to buy more products
         }
     }
 }

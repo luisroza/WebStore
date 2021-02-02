@@ -78,7 +78,7 @@ namespace CommonStore.WebApp.MVC
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Vitrine}/{action=Index}/{id?}");
+                    template: "{controller=Display}/{action=Index}/{id?}");
             });
         }
     }

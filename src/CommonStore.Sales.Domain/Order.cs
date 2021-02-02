@@ -45,14 +45,14 @@ namespace CommonStore.Sales.Domain
             if (!VoucherUsed) return;
 
             decimal discount = 0;
-            var valor = TotalPrice;
+            var price = TotalPrice;
 
             if (Voucher.TypeDiscountVoucher == VoucherType.Percentage)
             {
                 if(Voucher.Percentage.HasValue)
                 {
-                    Discount = (valor * Voucher.Percentage.Value) / 100;
-                    valor -= Discount;
+                    Discount = (price * Voucher.Percentage.Value) / 100;
+                    price -= Discount;
                 }
             }
             else
@@ -60,11 +60,11 @@ namespace CommonStore.Sales.Domain
                 if(Voucher.PriceDiscount.HasValue)
                 {
                     Discount = Voucher.PriceDiscount.Value;
-                    valor -= Discount;
+                    price -= Discount;
                 }
             }
 
-            TotalPrice = valor < 0 ? 0 : valor;
+            TotalPrice = price < 0 ? 0 : price;
             Discount = discount;
         }
 
