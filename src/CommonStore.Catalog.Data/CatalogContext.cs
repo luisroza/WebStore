@@ -13,8 +13,8 @@ namespace CommonStore.Catalog.Data
         public CatalogContext(DbContextOptions<CatalogContext> options)
             : base(options) { }
 
-        public DbSet<Product> Produtos { get; set; }
-        public DbSet<Category> Categorias { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

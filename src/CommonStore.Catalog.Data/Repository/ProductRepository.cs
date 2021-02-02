@@ -23,27 +23,27 @@ namespace CommonStore.Catalog.Data.Repository
         public async Task<IEnumerable<Product>> GetAll()
         {
             //AsNoTracking uses less resources from EF
-            return await _context.Produtos.AsNoTracking().ToListAsync();
+            return await _context.Products.AsNoTracking().ToListAsync();
         }
 
         public async Task<Product> GetById(Guid id)
         {
-            return await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Product>> GetByCategory(int Code)
         {
-            return await _context.Produtos.AsNoTracking().Include(p => p.Category).Where(c => c.Category.Code == Code).ToListAsync();
+            return await _context.Products.AsNoTracking().Include(p => p.Category).Where(c => c.Category.Code == Code).ToListAsync();
         }
 
         public async Task<IEnumerable<Category>> GetCategories()
         {
-            return await _context.Categorias.AsNoTracking().ToListAsync();
+            return await _context.Categories.AsNoTracking().ToListAsync();
         }
 
         public void Add(Product produto)
         {
-            _context.Produtos.Add(produto);
+            _context.Products.Add(produto);
         }
 
         public void Update(Product produto)
