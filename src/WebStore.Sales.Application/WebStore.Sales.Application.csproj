@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebStore.Core\WebStore.Core.csproj" />
+    <ProjectReference Include="..\WebStore.Sales.Domain\WebStore.Sales.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
