@@ -42,7 +42,7 @@ namespace WebStore.Sales.Data
 
         public async Task<bool> Commit()
         {
-            //ChangeTracker - EntityFramework's tracking mapper
+            //ChangeTracker - EntityFramework's tracking mapper - it has all changes
             foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("CreateDate") != null))
             {
                 if (entry.State == EntityState.Added)
@@ -55,11 +55,11 @@ namespace WebStore.Sales.Data
                     entry.Property("CreateDate").IsModified = false;
                 }
             }
+            
+            var success = await base.SaveChangesAsync() > 0;
+            if (success) await _mediatorHandler.PublishEvents(this);
 
-            await _mediatorHandler.PublishEvents(this);
-
-            //More than 1 row updated on DB
-            return await base.SaveChangesAsync() > 0;
+            return success;
         }
     }
 }

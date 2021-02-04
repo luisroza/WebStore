@@ -12,6 +12,7 @@ using WebStore.Sales.Data;
 using WebStore.Sales.Data.Repository;
 using WebStore.Sales.Domain;
 using WebStore.Sales.Application.Events;
+using WebStore.Sales.Application.Queries;
 
 namespace WebStore.WebApp.MVC.Setup
 {
@@ -36,6 +37,7 @@ namespace WebStore.WebApp.MVC.Setup
             // Sales
             services.AddScoped<IRequestHandler<AddOrderLineCommand, bool>, OrderCommandHandler>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderQueries, OrderQueries>();
             services.AddScoped<SalesContext>();
 
             services.AddScoped<INotificationHandler<DraftOrderStartedEvent>, OrderEventHandler>();
