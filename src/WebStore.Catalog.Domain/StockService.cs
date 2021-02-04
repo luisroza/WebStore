@@ -27,7 +27,7 @@ namespace WebStore.Catalog.Domain
 
             product.DecreaseStock(quantity);
 
-            // TODO: Parametrizar a Quantity de estoque baixo
+            // TODO: StockQuantity should be in a config file
             if (product.StockQuantity < 10)
             {
                 await _mediator.PublishEvent(new ProductLowStockEvent(product.Id, product.StockQuantity));

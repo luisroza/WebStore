@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation.Results;
 
 namespace WebStore.Sales.Domain
 {
@@ -76,11 +77,16 @@ namespace WebStore.Sales.Domain
             CalculateTotalPriceDiscount();
         }
 
-        public void ApplyVoucher(Voucher voucher)
+        public ValidationResult ApplyVoucher(Voucher voucher)
         {
+            var validationResult = voucher.ValidateVoucher();
+            if (!validationResult.IsValid) return validationResult;
+
             Voucher = voucher;
             VoucherUsed = true;
             CalculateOrderPrice();
+
+            return validationResult;
         }
 
         public bool ExistentOrderLine(OrderLine item)
@@ -138,7 +144,7 @@ namespace WebStore.Sales.Domain
             CalculateOrderPrice();
         }
 
-        public void AddUnits(OrderLine item, int units)
+        public void UpdateUnits(OrderLine item, int units)
         {
             item.UpdateUnit(units);
             UpdateOrderLine(item);

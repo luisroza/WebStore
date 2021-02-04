@@ -8,13 +8,11 @@ namespace WebStore.Sales.Application.Commands
     {
         public Guid CustomerId { get; private set; }
         public Guid ProductId { get; private set; }
-        public Guid OrderId { get; private set; }
 
-        public RemoveOrderLineCommand(Guid customerId, Guid productId, Guid orderId)
+        public RemoveOrderLineCommand(Guid customerId, Guid productId)
         {
             CustomerId = customerId;
             ProductId = productId;
-            OrderId = orderId;
         }
 
         public override bool IsValid()
@@ -35,10 +33,6 @@ namespace WebStore.Sales.Application.Commands
             RuleFor(c => c.ProductId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("Invalid product ID");
-
-            RuleFor(c => c.OrderId)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Invalid order ID");
         }
     }
 }

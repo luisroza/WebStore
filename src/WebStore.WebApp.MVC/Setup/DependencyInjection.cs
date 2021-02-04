@@ -8,11 +8,11 @@ using WebStore.Catalog.Domain.Events;
 using WebStore.Core.Communication.Mediator;
 using WebStore.Core.Messages.CommonMessages.Notifications;
 using WebStore.Sales.Application.Commands;
+using WebStore.Sales.Application.Events;
+using WebStore.Sales.Application.Queries;
 using WebStore.Sales.Data;
 using WebStore.Sales.Data.Repository;
 using WebStore.Sales.Domain;
-using WebStore.Sales.Application.Events;
-using WebStore.Sales.Application.Queries;
 
 namespace WebStore.WebApp.MVC.Setup
 {
@@ -35,10 +35,14 @@ namespace WebStore.WebApp.MVC.Setup
             services.AddScoped<INotificationHandler<ProductLowStockEvent>, ProductEventHandler>();
 
             // Sales
-            services.AddScoped<IRequestHandler<AddOrderLineCommand, bool>, OrderCommandHandler>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderQueries, OrderQueries>();
             services.AddScoped<SalesContext>();
+
+            services.AddScoped<IRequestHandler<AddOrderLineCommand, bool>, CommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateOrderLineCommand, bool>, CommandHandler>();
+            services.AddScoped<IRequestHandler<RemoveOrderLineCommand, bool>, CommandHandler>();
+            services.AddScoped<IRequestHandler<ApplyVoucherOrderCommand, bool>, CommandHandler>();
 
             services.AddScoped<INotificationHandler<DraftOrderStartedEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<UpdateOrderEvent>, OrderEventHandler>();

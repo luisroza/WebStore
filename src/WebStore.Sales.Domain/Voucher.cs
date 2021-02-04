@@ -1,6 +1,8 @@
-﻿using WebStore.Core.DomainObjects;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using WebStore.Core.DomainObjects;
 
 namespace WebStore.Sales.Domain
 {
@@ -19,5 +21,32 @@ namespace WebStore.Sales.Domain
 
         //EF Relation
         public ICollection<Order> Orders { get; set; }
+
+        internal ValidationResult ValidateVoucher()
+        {
+            return new VoucherValidation().Validate(this);
+        }
+    }
+
+    public class VoucherValidation : AbstractValidator<Voucher>
+    {
+        public VoucherValidation()
+        {
+            RuleFor(v => v.ExpirationDate)
+                .GreaterThan(DateTime.Now)
+                .WithMessage("Voucher expired");
+
+            RuleFor(v => v.Active)
+                .Equal(true)
+                .WithMessage("Voucher not valid anymore");
+
+            RuleFor(v => v.Used)
+                .Equal(false)
+                .WithMessage("Voucher already used");
+
+            RuleFor(v => v.Quantity)
+                .GreaterThan(0)
+                .WithMessage("Voucher no longer available");
+        }
     }
 }

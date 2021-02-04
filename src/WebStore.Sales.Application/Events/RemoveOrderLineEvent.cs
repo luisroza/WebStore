@@ -1,16 +1,18 @@
-﻿using WebStore.Core.Messages;
-using System;
+﻿using System;
+using WebStore.Core.Messages;
 
 namespace WebStore.Sales.Application.Events
 {
-    public class DraftOrderStartedEvent : Event
+    public class RemoveOrderLineEvent : Event
     {
         public Guid OrderId { get; private set; }
         public Guid CustomerId { get; private set; }
+        public Guid ProductId { get; private set; }
 
-        public DraftOrderStartedEvent(Guid customerId, Guid orderId)
+        public RemoveOrderLineEvent(Guid customerId, Guid orderId, Guid productId)
         {
             AggregateId = orderId;
+            ProductId = orderId;
             CustomerId = customerId;
             OrderId = orderId;
         }

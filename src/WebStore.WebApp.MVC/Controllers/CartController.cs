@@ -58,7 +58,6 @@ namespace WebStore.WebApp.MVC.Controllers
             return RedirectToAction("ProductDetail", "Display", new { id });
         }
 
-        /*TODO 
         [HttpPost]
         [Route("remove-cart")]
         public async Task<IActionResult> RemoveItem(Guid id)
@@ -109,6 +108,5 @@ namespace WebStore.WebApp.MVC.Controllers
 
             return View("Index", await _orderQueries.GetCustomerCart(CustomerId));
         }
-        */
     }
 }

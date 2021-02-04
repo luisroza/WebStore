@@ -8,14 +8,12 @@ namespace WebStore.Sales.Application.Commands
     {
         public Guid CustomerId { get; private set; }
         public Guid ProductId { get; private set; }
-        public Guid OrderId { get; private set; }
         public int Quantity { get; private set; }
 
-        public UpdateOrderLineCommand(Guid customerId, Guid productId, Guid orderId, int quantity)
+        public UpdateOrderLineCommand(Guid customerId, Guid productId, int quantity)
         {
             CustomerId = customerId;
             ProductId = productId;
-            OrderId = orderId;
             Quantity = quantity;
         }
 
@@ -37,10 +35,6 @@ namespace WebStore.Sales.Application.Commands
             RuleFor(c => c.ProductId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("Invalid product ID");
-
-            RuleFor(c => c.OrderId)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Invalid order ID");
 
             RuleFor(c => c.Quantity)
                 .GreaterThan(0)

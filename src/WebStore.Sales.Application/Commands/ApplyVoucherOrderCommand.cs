@@ -7,13 +7,11 @@ namespace WebStore.Sales.Application.Commands
     public class ApplyVoucherOrderCommand : Command
     {
         public Guid CustomerId { get; private set; }
-        public Guid OrderId { get; private set; }
         public string VoucherCode { get; private set; }
 
-        public ApplyVoucherOrderCommand(Guid customerId, Guid orderId, string voucherCode)
+        public ApplyVoucherOrderCommand(Guid customerId, string voucherCode)
         {
             CustomerId = customerId;
-            OrderId = orderId;
             VoucherCode = voucherCode;
         }
 
@@ -31,10 +29,6 @@ namespace WebStore.Sales.Application.Commands
             RuleFor(c => c.CustomerId)
                 .NotEqual(Guid.Empty)
                 .WithMessage("Invalid customer ID");
-
-            RuleFor(c => c.OrderId)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Invalid order ID");
 
             RuleFor(c => c.VoucherCode)
                 .NotEmpty()
