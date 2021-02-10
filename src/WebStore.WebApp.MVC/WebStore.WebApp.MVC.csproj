@@ -21,6 +21,9 @@
     <ProjectReference Include="..\WebStore.Catalog.Data\WebStore.Catalog.Data.csproj" />
     <ProjectReference Include="..\WebStore.Catalog.Domain\WebStore.Catalog.Domain.csproj" />
     <ProjectReference Include="..\WebStore.Core\WebStore.Core.csproj" />
+    <ProjectReference Include="..\WebStore.Payments.AntiCorruption\WebStore.Payments.AntiCorruption.csproj" />
+    <ProjectReference Include="..\WebStore.Payments.Business\WebStore.Payments.Business.csproj" />
+    <ProjectReference Include="..\WebStore.Payments.Data\WebStore.Payments.Data.csproj" />
     <ProjectReference Include="..\WebStore.Sales.Application\WebStore.Sales.Application.csproj" />
     <ProjectReference Include="..\WebStore.Sales.Data\WebStore.Sales.Data.csproj" />
   </ItemGroup>

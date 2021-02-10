@@ -1,8 +1,11 @@
 ﻿using MediatR;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WebStore.Core.Communication.Mediator;
+using WebStore.Core.DomainObjects.DTO;
+using WebStore.Core.Extensions;
 using WebStore.Core.Messages;
 using WebStore.Core.Messages.CommonMessages.Notifications;
 using WebStore.Sales.Application.Events;
@@ -10,15 +13,18 @@ using WebStore.Sales.Domain;
 
 namespace WebStore.Sales.Application.Commands
 {
-    public class CommandHandler : IRequestHandler<AddOrderLineCommand, bool>,
+    public class OrderCommandHandler : IRequestHandler<AddOrderLineCommand, bool>,
                                    IRequestHandler<ApplyVoucherOrderCommand, bool>,
                                    IRequestHandler<RemoveOrderLineCommand, bool>,
-                                   IRequestHandler<UpdateOrderLineCommand, bool>
+                                   IRequestHandler<UpdateOrderLineCommand, bool>,
+                                   IRequestHandler<StartOrderCommand, bool>,
+                                   IRequestHandler<FinalizeOrderCommand, bool>,
+                                   IRequestHandler<CancelOrderReplenishStockCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMediatorHandler _mediatorHandler;
 
-        public CommandHandler(IOrderRepository orderRepository, IMediatorHandler mediatorHandler)
+        public OrderCommandHandler(IOrderRepository orderRepository, IMediatorHandler mediatorHandler)
         {
             _orderRepository = orderRepository;
             _mediatorHandler = mediatorHandler;
@@ -153,6 +159,61 @@ namespace WebStore.Sales.Application.Commands
 
             _orderRepository.UpdateOrderLine(orderLine);
             _orderRepository.Update(order);
+
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(StartOrderCommand message, CancellationToken cancellationToken)
+        {
+            if (!ValidateCommand(message)) return false;
+
+            var order = await _orderRepository.GetDraftOrderByCustomerId(message.CustomerId);
+            order.StarOrder();
+
+            var itemList = new List<Item>();
+            order.OrderLines.ForEach(i => itemList.Add(new Item { Id = i.ProductId, Quantity = i.Quantity }));
+            var orderItemList = new OrderItemList { OrderId = order.Id, Lines = itemList };
+
+            order.AddEvent(new StartOrderEvent(order.Id, order.CustomerId, orderItemList, order.TotalPrice, message.CardName, message.CardNumber, message.CardExpirationDate, message.CardVerificationCode));
+
+            _orderRepository.Update(order);
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(FinalizeOrderCommand message, CancellationToken cancellationToken)
+        {
+            if (!ValidateCommand(message)) return false;
+            var order = await _orderRepository.GetById(message.OrderId);
+
+            if (order == null)
+            {
+                await _mediatorHandler.PublishNotification(new DomainNotification("order", "Order not found"));
+                return false;
+            }
+
+            order.FinalizeOrder();
+
+            order.AddEvent(new OrderFinalizedEvent(message.OrderId));
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(CancelOrderReplenishStockCommand message, CancellationToken cancellationToken)
+        {
+            if (!ValidateCommand(message)) return false;
+            var order = await _orderRepository.GetById(message.OrderId);
+
+            if (order == null)
+            {
+                await _mediatorHandler.PublishNotification(new DomainNotification("order", "Order not found"));
+                return false;
+            }
+
+            var itemsList = new List<Item>();
+            order.OrderLines.ForEach(i => itemsList.Add(new Item { Id = i.ProductId, Quantity = i.Quantity}));
+            var orderProductsList = new OrderItemList { OrderId = order.Id, Lines = itemsList };
+
+            order.AddEvent(new OrderCancelledEvent(message.OrderId));
+            order.MakeDraft();
 
             return await _orderRepository.UnitOfWork.Commit();
         }

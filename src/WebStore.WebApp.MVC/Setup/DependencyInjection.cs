@@ -7,6 +7,10 @@ using WebStore.Catalog.Domain;
 using WebStore.Catalog.Domain.Events;
 using WebStore.Core.Communication.Mediator;
 using WebStore.Core.Messages.CommonMessages.Notifications;
+using WebStore.Payments.AntiCorruption;
+using WebStore.Payments.Business;
+using WebStore.Payments.Data;
+using WebStore.Payments.Data.Repository;
 using WebStore.Sales.Application.Commands;
 using WebStore.Sales.Application.Events;
 using WebStore.Sales.Application.Queries;
@@ -39,14 +43,22 @@ namespace WebStore.WebApp.MVC.Setup
             services.AddScoped<IOrderQueries, OrderQueries>();
             services.AddScoped<SalesContext>();
 
-            services.AddScoped<IRequestHandler<AddOrderLineCommand, bool>, CommandHandler>();
-            services.AddScoped<IRequestHandler<UpdateOrderLineCommand, bool>, CommandHandler>();
-            services.AddScoped<IRequestHandler<RemoveOrderLineCommand, bool>, CommandHandler>();
-            services.AddScoped<IRequestHandler<ApplyVoucherOrderCommand, bool>, CommandHandler>();
+            services.AddScoped<IRequestHandler<AddOrderLineCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<UpdateOrderLineCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<RemoveOrderLineCommand, bool>, OrderCommandHandler>();
+            services.AddScoped<IRequestHandler<ApplyVoucherOrderCommand, bool>, OrderCommandHandler>();
 
             services.AddScoped<INotificationHandler<DraftOrderStartedEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<UpdateOrderEvent>, OrderEventHandler>();
             services.AddScoped<INotificationHandler<AddOrderLineEvent>, OrderEventHandler>();
+
+            // Payment
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ICreditCardPaymentFacade, CreditCardPaymentFacade>();
+            services.AddScoped<IPayPalGateway, PayPalGateway>();
+            services.AddScoped<IConfigurationManager, ConfigurationManager>();
+            services.AddScoped<PaymentContext>();
         }
     }
 }

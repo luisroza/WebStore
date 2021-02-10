@@ -7,6 +7,7 @@ using WebStore.Sales.Application.Commands;
 using System;
 using System.Threading.Tasks;
 using WebStore.Sales.Application.Queries;
+using WebStore.Sales.Application.Queries.ViewModels;
 
 namespace WebStore.WebApp.MVC.Controllers
 {
@@ -107,6 +108,31 @@ namespace WebStore.WebApp.MVC.Controllers
             }
 
             return View("Index", await _orderQueries.GetCustomerCart(CustomerId));
+        }
+
+        [Route("order-summary")]
+        public async Task<IActionResult> OrderSummary()
+        {
+            return View(await _orderQueries.GetCustomerCart(CustomerId));
+        }
+
+        [HttpGet]
+        [Route("start-order")]
+        public async Task<IActionResult> StartOrder(CartViewModel cartViewModel)
+        {
+            var cart = await _orderQueries.GetCustomerCart(CustomerId);
+
+            var command = new StartOrderCommand(cart.OrderId, CustomerId, cart.TotalPrice, cartViewModel.Payment.CardName,
+                cartViewModel.Payment.CardNumber, cartViewModel.Payment.CardExpirationDate, cartViewModel.Payment.CardVerificationCode);
+
+            await _mediatorHandler.SendCommand(command);
+
+            if (OperationIsValid())
+            {
+                return RedirectToAction("Index", "Order");
+            }
+
+            return View("OrderSummary", await _orderQueries.GetCustomerCart(CustomerId));
         }
     }
 }
