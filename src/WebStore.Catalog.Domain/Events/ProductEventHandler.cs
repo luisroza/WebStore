@@ -7,7 +7,8 @@ using WebStore.Core.Messages.CommonMessages.IntegrationEvents;
 namespace WebStore.Catalog.Domain.Events
 {
     public class ProductEventHandler : INotificationHandler<ProductLowStockEvent>,
-                                       INotificationHandler<StartOrderEvent>
+                                       INotificationHandler<StartOrderEvent>,
+                                       INotificationHandler<OrderCancelledEvent>
     {
         private readonly IProductRepository _productRepository;
         private readonly IStockService _stockService;
@@ -40,6 +41,11 @@ namespace WebStore.Catalog.Domain.Events
             {
                 await _mediatorHandler.PublishEvent(new OrderStockRejectedEvent(message.OrderId, message.CustomerId));
             }
+        }
+
+        public async Task Handle(OrderCancelledEvent message, CancellationToken cancellationToken)
+        {
+            await _stockService.ReplenishStockOrderProductsList(message.OrderProducts);
         }
     }
 }

@@ -40,19 +40,19 @@ namespace WebStore.Sales.Application.Events
             return Task.CompletedTask;
         }
 
-        public Task Handle(OrderStockRejectedEvent message, CancellationToken cancellationToken)
+        public async Task Handle(OrderStockRejectedEvent message, CancellationToken cancellationToken)
         {
             //cancel order process - show error to customer
-            return Task.CompletedTask;
+            await _mediatorHandler.SendCommand(new CancelOrderCommand(message.OrderId, message.CustomerId));
         }
 
-        public Task Handle(CheckOutEvent message, CancellationToken cancellationToken)
+        public async Task Handle(CheckOutEvent message, CancellationToken cancellationToken)
         {
             //Order completed
             await _mediatorHandler.SendCommand(new FinalizeOrderCommand(message.CustomerId, message.CustomerId));
         }
 
-        public Task Handle(PaymentRejectedEvent message, CancellationToken cancellationToken)
+        public async Task Handle(PaymentRejectedEvent message, CancellationToken cancellationToken)
         {
             await _mediatorHandler.SendCommand(new CancelOrderReplenishStockCommand(message.OrderId, message.CustomerId));
         }

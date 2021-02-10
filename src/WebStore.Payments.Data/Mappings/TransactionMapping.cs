@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WebStore.Payments.Business;
 
 namespace WebStore.Payments.Data.Mappings

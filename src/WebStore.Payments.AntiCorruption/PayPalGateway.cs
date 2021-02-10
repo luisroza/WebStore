@@ -12,14 +12,14 @@ namespace WebStore.Payments.AntiCorruption
 
         public string GetCardHashKey(string serviceKey, string creditCard)
         {
-            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10))
-                .Select(s => s[new Random().Next(s.Length)]).ToArray();
+            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)
+                .Select(s => s[new Random().Next(s.Length)]).ToArray());
         }
 
         public string GetPayPalServiceKey(string apiKey, string encriptionKey)
         {
-            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10))
-                .Select(s => s[new Random().Next(s.Length)]).ToArray();
+            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10)
+                .Select(s => s[new Random().Next(s.Length)]).ToArray());
         }
     }
 }

@@ -13,14 +13,14 @@ namespace WebStore.Payments.Data
     {
         private readonly IMediatorHandler _mediatorHandler;
 
-        public MediatorExtensions(DbContextOptions<PaymentContext> options, IMediatorHandler rebusHandler)
+        public PaymentContext(DbContextOptions<PaymentContext> options, IMediatorHandler rebusHandler)
             : base(options)
         {
             _mediatorHandler = rebusHandler ?? throw new ArgumentException(nameof(rebusHandler));
         }
 
-        public DbSet<Payment> Payments { get; set; };
-        public DbSet<Transaction> Transactions { get; set; };
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public async Task<bool> Commit()
         {
@@ -38,7 +38,8 @@ namespace WebStore.Payments.Data
             }
 
             var success = await base.SaveChangesAsync() > 0;
-            if (success) await _mediatorHandler.PublishEvent(this);
+            if (success)
+                await _mediatorHandler.PublishEvent(this);
 
             return success;
         }

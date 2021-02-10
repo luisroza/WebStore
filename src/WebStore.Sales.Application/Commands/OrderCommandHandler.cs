@@ -7,6 +7,7 @@ using WebStore.Core.Communication.Mediator;
 using WebStore.Core.DomainObjects.DTO;
 using WebStore.Core.Extensions;
 using WebStore.Core.Messages;
+using WebStore.Core.Messages.CommonMessages.IntegrationEvents;
 using WebStore.Core.Messages.CommonMessages.Notifications;
 using WebStore.Sales.Application.Events;
 using WebStore.Sales.Domain;
@@ -19,7 +20,8 @@ namespace WebStore.Sales.Application.Commands
                                    IRequestHandler<UpdateOrderLineCommand, bool>,
                                    IRequestHandler<StartOrderCommand, bool>,
                                    IRequestHandler<FinalizeOrderCommand, bool>,
-                                   IRequestHandler<CancelOrderReplenishStockCommand, bool>
+                                   IRequestHandler<CancelOrderReplenishStockCommand, bool>,
+                                   IRequestHandler<CancelOrderCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMediatorHandler _mediatorHandler;
@@ -174,7 +176,7 @@ namespace WebStore.Sales.Application.Commands
             order.OrderLines.ForEach(i => itemList.Add(new Item { Id = i.ProductId, Quantity = i.Quantity }));
             var orderItemList = new OrderItemList { OrderId = order.Id, Lines = itemList };
 
-            order.AddEvent(new StartOrderEvent(order.Id, order.CustomerId, orderItemList, order.TotalPrice, message.CardName, message.CardNumber, message.CardExpirationDate, message.CardVerificationCode));
+            order.AddEvent(new Events.StartOrderEvent(order.Id, order.CustomerId, orderItemList, order.TotalPrice, message.CardName, message.CardNumber, message.CardExpirationDate, message.CardVerificationCode));
 
             _orderRepository.Update(order);
             return await _orderRepository.UnitOfWork.Commit();
@@ -210,11 +212,26 @@ namespace WebStore.Sales.Application.Commands
 
             var itemsList = new List<Item>();
             order.OrderLines.ForEach(i => itemsList.Add(new Item { Id = i.ProductId, Quantity = i.Quantity}));
-            var orderProductsList = new OrderItemList { OrderId = order.Id, Lines = itemsList };
+            var orderItemList = new OrderItemList { OrderId = order.Id, Lines = itemsList };
 
-            order.AddEvent(new OrderCancelledEvent(message.OrderId));
+            order.AddEvent(new OrderCancelledEvent(order.Id, order.CustomerId, orderItemList));
             order.MakeDraft();
 
+            return await _orderRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(CancelOrderCommand message, CancellationToken cancellationToken)
+        {
+            if (!ValidateCommand(message)) return false;
+            var order = await _orderRepository.GetById(message.OrderId);
+
+            if (order == null)
+            {
+                await _mediatorHandler.PublishNotification(new DomainNotification("order", "Order not found"));
+                return false;
+            }
+
+            order.MakeDraft();
             return await _orderRepository.UnitOfWork.Commit();
         }
 
