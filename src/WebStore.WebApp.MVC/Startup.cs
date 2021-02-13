@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using WebStore.Catalog.Application.AutoMapper;
-using WebStore.Catalog.Data;
-using WebStore.WebApp.MVC.Data;
-using WebStore.WebApp.MVC.Setup;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebStore.Catalog.Application.AutoMapper;
+using WebStore.Catalog.Data;
+using WebStore.Payments.Data;
+using WebStore.Sales.Data;
+using WebStore.WebApp.MVC.Data;
+using WebStore.WebApp.MVC.Setup;
 
 namespace WebStore.WebApp.MVC
 {
@@ -38,6 +40,12 @@ namespace WebStore.WebApp.MVC
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<CatalogContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<SalesContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<PaymentContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>()
