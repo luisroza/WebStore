@@ -1,0 +1,31 @@
+﻿@model  IEnumerable<WebStore.Core.Data.EventSourcing.StoredEvent>
+
+@{ 
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @{ 
+        <table class="table table-sm table-bordered table-hover col-md-12">
+            <thead class="table-dark">
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Data</td>
+                    <td>JSON</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var modelEvent in Model)
+	            {
+                    <tr>
+                        <td>@modelEvent.Id</td>
+                        <td>@modelEvent.Type</td>
+                        <td>@modelEvent.TimeStamp</td>
+                        <td><code>@modelEvent.Data</code></td>
+                    </tr>
+	            }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<WebStore.Sales.Application.Queries.ViewModels.OrderViewModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>My Orders</h4>
+            <hr />
+            <h5>Check out your order status</h5>
+
+            @{ 
+                if (Model.Any())
+                {
+                    <br /><br />
+                    <div class="table-responsive-sm">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Order</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Order Status</th>
+                                    <th scope="col">Total Amount</th>
+                                    <th scope="col">History</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ 
+                                    foreach (var order in Model)
+                                    {
+                                        <tr>
+                                            <td>@order.Code</td>
+                                            <td>@order.CreateDate.ToShortDateString()</td>
+                                            <td>
+                                                <h4>
+                                                    @{
+                                                        if (order.OrderStatus == 4)
+                                                        {
+                                                            <span class="badge badge-success">Paid</span>
+                                                        }
+                                                        else if (order.OrderStatus == 6)
+                                                        {
+                                                            <span class="badge badge-success">Cancelled</span>
+                                                        }
+                                                    }
+                                                </h4>
+                                            </td>
+                                            <td>@order.TotalPrice.ToString("C")</td>
+                                            <td><a class="btn btn-info" asp-controller="Event" asp-action="Index" asp-route-id="@order.Code"><span class="far fa-clock"></span></a></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p>None order available</p>
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -28,12 +28,15 @@ namespace EventSourcing
                 var encodedData = Encoding.UTF8.GetString(solvedEvent.Event.Data);
                 var jsonData = JsonConvert.DeserializeObject<BaseEvent>(encodedData);
                 
-                var storeEvent = new StoredEvent(
+                var storedEvent = new StoredEvent(
                     solvedEvent.Event.EventId,
                     solvedEvent.Event.EventType,
-                    jsonData.Timestamp,
+                    jsonData.TimeStamp,
                     encodedData);
+
+                eventList.Add(storedEvent);
             }
+            return eventList;
         }
 
         public async Task SaveEvent<TEvent>(TEvent tEvent) where TEvent : Event
@@ -50,5 +53,10 @@ namespace EventSourcing
                 Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(tEvent)),
                 null);
         }
+    }
+
+    internal class BaseEvent
+    {
+        public DateTime TimeStamp { get; set; }
     }
 }
