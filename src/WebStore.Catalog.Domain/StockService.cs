@@ -50,7 +50,7 @@ namespace WebStore.Catalog.Domain
             //Business Rule -> place it into a config file
             if(product.StockQuantity < 10)
             {
-                await _mediatorHandler.PublishEvent(new ProductLowStockEvent(product.Id, product.StockQuantity));
+                await _mediatorHandler.PublishDomainEvent(new ProductLowStockEvent(product.Id, product.StockQuantity));
             }
 
             _productRepository.Update(product);

@@ -35,11 +35,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.WebApp.MVC", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{0D8820CF-7B54-47DF-8E27-2D0D852AAB76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Payments.Data", "src\WebStore.Payments.Data\WebStore.Payments.Data.csproj", "{E178415A-3C8C-49B1-AB42-4B7C44F63B68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Payments.Data", "src\WebStore.Payments.Data\WebStore.Payments.Data.csproj", "{E178415A-3C8C-49B1-AB42-4B7C44F63B68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Payments.AntiCorruption", "src\WebStore.Payments.AntiCorruption\WebStore.Payments.AntiCorruption.csproj", "{3F2416E5-7547-4BDB-BA3A-3988C8C3F6AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Payments.AntiCorruption", "src\WebStore.Payments.AntiCorruption\WebStore.Payments.AntiCorruption.csproj", "{3F2416E5-7547-4BDB-BA3A-3988C8C3F6AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Payments.Business", "src\WebStore.Payments.Business\WebStore.Payments.Business.csproj", "{EFB8F325-94BE-45E5-B5D1-E3F3DE65519C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebStore.Payments.Business", "src\WebStore.Payments.Business\WebStore.Payments.Business.csproj", "{EFB8F325-94BE-45E5-B5D1-E3F3DE65519C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{E72ECB19-6F57-4269-A1B3-20356B8474EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourcing", "src\EventSourcing\EventSourcing.csproj", "{18960C51-8C4F-4B18-874E-CB50EB16C502}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +99,10 @@ Global
 		{EFB8F325-94BE-45E5-B5D1-E3F3DE65519C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB8F325-94BE-45E5-B5D1-E3F3DE65519C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB8F325-94BE-45E5-B5D1-E3F3DE65519C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18960C51-8C4F-4B18-874E-CB50EB16C502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18960C51-8C4F-4B18-874E-CB50EB16C502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18960C51-8C4F-4B18-874E-CB50EB16C502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18960C51-8C4F-4B18-874E-CB50EB16C502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +125,7 @@ Global
 		{E178415A-3C8C-49B1-AB42-4B7C44F63B68} = {0D8820CF-7B54-47DF-8E27-2D0D852AAB76}
 		{3F2416E5-7547-4BDB-BA3A-3988C8C3F6AB} = {0D8820CF-7B54-47DF-8E27-2D0D852AAB76}
 		{EFB8F325-94BE-45E5-B5D1-E3F3DE65519C} = {0D8820CF-7B54-47DF-8E27-2D0D852AAB76}
+		{18960C51-8C4F-4B18-874E-CB50EB16C502} = {E72ECB19-6F57-4269-A1B3-20356B8474EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65D72384-F17B-4AFF-9FF1-9267E7BD3F9D}

@@ -37,11 +37,7 @@ namespace WebStore.Payments.Data
                 }
             }
 
-            var success = await base.SaveChangesAsync() > 0;
-            if (success)
-                await _mediatorHandler.PublishEvent(this);
-
-            return success;
+            return await base.SaveChangesAsync() > 0;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

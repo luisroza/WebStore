@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EventSourcing;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using WebStore.Catalog.Application.Services;
 using WebStore.Catalog.Data;
@@ -6,6 +7,7 @@ using WebStore.Catalog.Data.Repository;
 using WebStore.Catalog.Domain;
 using WebStore.Catalog.Domain.Events;
 using WebStore.Core.Communication.Mediator;
+using WebStore.Core.Data.EventSourcing;
 using WebStore.Core.Messages.CommonMessages.IntegrationEvents;
 using WebStore.Core.Messages.CommonMessages.Notifications;
 using WebStore.Payments.AntiCorruption;
@@ -37,7 +39,6 @@ namespace WebStore.WebApp.MVC.Setup
             services.AddScoped<IProductAppService, ProductAppService>();
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<CatalogContext>();
-
             services.AddScoped<INotificationHandler<ProductLowStockEvent>, ProductEventHandler>();
 
             // Sales
@@ -61,8 +62,11 @@ namespace WebStore.WebApp.MVC.Setup
             services.AddScoped<IPayPalGateway, PayPalGateway>();
             services.AddScoped<IConfigurationManager, ConfigurationManager>();
             services.AddScoped<PaymentContext>();
-
             services.AddScoped<INotificationHandler<OrderStockConfirmedEvent>, PaymentEventHandler>();
+
+            // Event Sourcing
+            services.AddSingleton<IEventStoreService, EventStoreService>();
+            services.AddSingleton<IEventSourcingRepository, EventSourcingRepository>();
         }
     }
 }

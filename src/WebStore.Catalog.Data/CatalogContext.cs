@@ -22,7 +22,7 @@ namespace WebStore.Catalog.Data
             //All varchar columns will have 100 as max lenght instead of MAX, on db creation time
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
-                property.Relational().ColumnType = "varchar(100)";
+                property.SetMaxLength(100);
 
             modelBuilder.Ignore<Event>();
 
