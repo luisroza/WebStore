@@ -1,10 +1,10 @@
 ﻿@model WebStore.Catalog.Application.ViewModels.ProductViewModel
 
 @{
-    ViewData["Title"] = "UpdateProduct";
+    ViewData["Title"] = "Edit Product";
 }
 
-<h1>Editar Produto</h1>
+<h1>Edit Product</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,8 +14,8 @@
             <input type="hidden" asp-for="Id" />
 
             <div class="form-group">
-                <label class="control-label">Categoria</label>
-                <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Nome"))">
+                <label class="control-label">Category</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
                     <option></option>
                 </select>
 

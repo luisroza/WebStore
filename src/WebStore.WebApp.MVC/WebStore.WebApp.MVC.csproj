@@ -29,9 +29,4 @@
     <ProjectReference Include="..\WebStore.Sales.Data\WebStore.Sales.Data.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Images\" />
-  </ItemGroup>
-
 </Project>

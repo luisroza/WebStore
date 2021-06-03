@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Catalog.Application.Services;
 using WebStore.Catalog.Application.ViewModels;
 
 namespace WebStore.WebApp.MVC.Controllers.Admin
 {
+    [Authorize]
+    [Route("admin-products")]
     public class ProductAdminController : Controller
     {
         private readonly IProductAppService _productAppService;
@@ -16,7 +19,7 @@ namespace WebStore.WebApp.MVC.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("admin-products")]
+        [Route("product-list")]
         public async Task<IActionResult> Index()
         {
             return View(await _productAppService.GetAll());

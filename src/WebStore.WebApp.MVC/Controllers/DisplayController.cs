@@ -23,7 +23,7 @@ namespace WebStore.WebApp.MVC.Controllers
         }
 
         [HttpGet]
-        [Route("product-detail/{id}")]
+        [Route("product-detail/{id:guid}")]
         public async Task<IActionResult> ProdutoDetalhe(Guid id)
         {
             return View(await _productAppService.GetById(id));

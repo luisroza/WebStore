@@ -11,6 +11,7 @@ using WebStore.Sales.Application.Queries.ViewModels;
 
 namespace WebStore.WebApp.MVC.Controllers
 {
+    [Route("my-cart")]
     public class CartController : BaseController
     {
         private readonly IProductAppService _productAppService;
@@ -28,14 +29,13 @@ namespace WebStore.WebApp.MVC.Controllers
             _mediatorHandler = mediatorHandler;
         } 
 
-        [Route("my-cart")]
         public async Task<IActionResult> Index()
         {
             return View(await _orderQueries.GetCustomerCart(CustomerId));
         }
 
         [HttpPost]
-        [Route("my-cart")]
+        [Route("add-item")]
         public async Task<IActionResult> AddItem(Guid id, int quantity)
         {
             var product = await _productAppService.GetById(id);
@@ -43,7 +43,7 @@ namespace WebStore.WebApp.MVC.Controllers
 
             if (product.StockQuantity < quantity)
             {
-                TempData["Error"] = "Product stock not enough";
+                TempData["Error"] = "Product stock is not enough";
                 return RedirectToAction("ProductDetail", "Display", new { id });
             }
 
@@ -60,7 +60,7 @@ namespace WebStore.WebApp.MVC.Controllers
         }
 
         [HttpPost]
-        [Route("remove-cart")]
+        [Route("remove-item")]
         public async Task<IActionResult> RemoveItem(Guid id)
         {
             var product = await _productAppService.GetById(id);

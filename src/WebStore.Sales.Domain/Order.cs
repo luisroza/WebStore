@@ -89,7 +89,7 @@ namespace WebStore.Sales.Domain
             return validationResult;
         }
 
-        public bool ExistentOrderLine(OrderLine item)
+        public bool ExistingOrderLine(OrderLine item)
         {
             return _orderLines.Any(p => p.ProductId== item.ProductId);
         }
@@ -100,7 +100,7 @@ namespace WebStore.Sales.Domain
 
             item.AssociateOrder(Id);
 
-            if(ExistentOrderLine(item))
+            if(ExistingOrderLine(item))
             {
                 var existentOrderLine = _orderLines.FirstOrDefault(p => p.ProductId == item.ProductId);
                 existentOrderLine.AddUnit(item.Quantity);

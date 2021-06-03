@@ -62,14 +62,13 @@
 </style>
 <div class="container">
 
-    <h1>Products Admin</h1>
+    <h1>Product Admin</h1>
     <hr />
     <div class="row">
-        <a asp-controller="ProductAdmin" asp-action="NewProduct" class="btn btn-success right">+ Adicionar Novo</a>
+        <a asp-controller="ProductAdmin" asp-action="NewProduct" class="btn btn-success right">+ Add New</a>
     </div>
     <hr />
     <div class="row">
-        <!-- BEGIN PRODUCTS -->
         @{
             foreach (var product in Model.OrderBy(p => p.CategoryId))
             {
@@ -89,8 +88,6 @@
             </div>
             }
         }
-
-        <!-- END PRODUCTS -->
     </div>
 </div>
 

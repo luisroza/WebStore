@@ -62,10 +62,9 @@
 </style>
 <div class="container">
 
-    <h1>Product Display</h1>
+    <h1>Products Available</h1>
     <br />
     <div class="row">
-        <!-- BEGIN PRODUCTS -->
         @{
             foreach (var product in Model.OrderBy(p=>p.CategoryId))
             {
@@ -85,8 +84,6 @@
             </div>
             }
         }
-
-        <!-- END PRODUCTS -->
     </div>
 </div>
 
