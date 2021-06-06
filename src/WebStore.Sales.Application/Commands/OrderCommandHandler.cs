@@ -49,7 +49,7 @@ namespace WebStore.Sales.Application.Commands
             }
             else
             {
-                var existentOrderLine = order.ExistentOrderLine(orderLine);
+                var existentOrderLine = order.ExistingOrderLine(orderLine);
                 order.AddOrderLine(orderLine);
 
                 if (existentOrderLine)
@@ -119,7 +119,7 @@ namespace WebStore.Sales.Application.Commands
             }
 
             var orderLine = await _orderRepository.GetOrderLineByOrder(order.Id, message.ProductId);
-            if (order != null && !order.ExistentOrderLine(orderLine))
+            if (order != null && !order.ExistingOrderLine(orderLine))
             {
                 await _mediatorHandler.PublishNotification(new DomainNotification("order", "Order Line not found"));
                 return false;
@@ -148,7 +148,7 @@ namespace WebStore.Sales.Application.Commands
             }
 
             var orderLine = await _orderRepository.GetOrderLineByOrder(order.Id, message.ProductId);
-            if (!order.ExistentOrderLine(orderLine))
+            if (!order.ExistingOrderLine(orderLine))
             {
                 await _mediatorHandler.PublishNotification(new DomainNotification("order", "Order Line not found"));
                 return false;
