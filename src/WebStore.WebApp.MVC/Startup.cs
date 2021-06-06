@@ -2,41 +2,40 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using WebStore.Catalog.Application.AutoMapper;
 using WebStore.Catalog.Data;
 using WebStore.Payments.Data;
 using WebStore.Sales.Data;
-using WebStore.WebApp.MVC.Data;
 using WebStore.WebApp.MVC.Setup;
 
 namespace WebStore.WebApp.MVC
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IWebHostEnvironment hostEnvironment)
         {
-            services.Configure<CookiePolicyOptions>(options =>
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsDevelopment())
             {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+                builder.AddUserSecrets<Startup>();
+            }
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            Configuration = builder.Build();
+        }
 
+        public void ConfigureServices(IServiceCollection services)
+        {           
             services.AddDbContext<CatalogContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -46,33 +45,26 @@ namespace WebStore.WebApp.MVC
             services.AddDbContext<PaymentContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
-
             services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
 
             services.AddMediatR(typeof(Startup));
 
             services.RegisterServices();
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddMvcConfiguration();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.EnvironmentName == Microsoft.Extensions.Hosting.Environments.Development)
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/500");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
                 app.UseHsts();
             }
 
@@ -80,7 +72,7 @@ namespace WebStore.WebApp.MVC
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();;
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
